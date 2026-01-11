@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { cargarParadas } from './services/dataLoader';
 
 const app = express();
 const PORT = 3000;
@@ -12,12 +13,24 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // Ruta de prueba para paradas
-app.get('/api/paradas', (req:Request, res:Response) => {
-    res.json({
-        message: 'Aquí irán las paradas cercanas',
-        paradas:[]
+app.get('/api/paradas', async (req:Request, res:Response) => {
+    try{
+        const paradas = await cargarParadas();
+
+        console.log('Total de paradas: ', paradas.length);
+        console.log('Primera parada: ', paradas[0]);
+
+        res.json({
+        message: 'Paradas cargadas exitosamente',
+        total: paradas.length,
+        paradas: paradas.slice(0, 5) // Solo las primeras 5, para no saturar
+        });
+    }
+    catch (error){
+        res.status(500).json({ error: 'Error al cargar paradas' });
+    }
+    
     });
-});
 
 // Ruta de preba para horarios
 app.get('/api/horarios/:paradaId', (req:Request, res:Response) => {
