@@ -4,6 +4,7 @@ import Papa from 'papaparse';
 interface Parada{
     codParada: string;
     nombreParada: string;
+    direccion: string,
     lat: string;
     lon: string;
     codLinea: string;

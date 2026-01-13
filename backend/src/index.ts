@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { cargarParadas } from './services/dataLoader';
+import { buscarParadasCercanas } from './services/paradaService';
 
 const app = express();
 const PORT = 3000;
@@ -10,6 +11,29 @@ app.use(express.json());
 // Ruta de prueba
 app.get('/', (req: Request, res: Response) => {
     res.json({ message: 'API de EMT Málaga funcionando'});
+});
+
+// Solicitar paradas cercanas
+app.get('/api/paradas/cercanas', async(req: Request, res: Response) => {
+    try{
+        const { lat, lon } = req.query;
+
+        if(!lat || !lon) {
+            return res.status(400).json({ error: 'Faltan parámetros lat y lon'});
+        }
+
+        const paradas = await buscarParadasCercanas(
+            parseFloat(lat as string),
+            parseFloat(lon as string)
+        );
+
+        res.json({
+            ubicacionUsuario: { lat: parseFloat(lat as string), lon: parseFloat(lon as string)},
+            paradasCercanas: paradas
+        });
+    }catch (error){
+        res.status(500).json({error: 'Error al buscar paradas cercanas'});
+    }
 });
 
 // Ruta de prueba para paradas
