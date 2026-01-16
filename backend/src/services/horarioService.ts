@@ -15,6 +15,14 @@ function obtenerFechaHoy(): string {
     return `${year}${month}${day}`; // Formato YYYYMMDD
 }
 
+function obtenerHoraActual(): string {
+    const ahora = new Date();
+    const horas = String(ahora.getHours()).padStart(2, '0');
+    const minutos = String(ahora.getMinutes()).padStart(2, '0');
+    const segundos = String(ahora.getSeconds()).padStart(2, '0');
+    return `${horas}:${minutos}:${segundos}`; // Formato: HH:MM:SS
+}
+
 export async function obtenerHorariosParada(
     codParada: string
 ): Promise<HorarioParada[]> {
@@ -60,5 +68,13 @@ export async function obtenerHorariosParada(
     // 6. Ordenar por hora
     horariosCompletos.sort((a, b) => a.hora.localeCompare(b.hora));
 
-    return horariosCompletos;
+    // 7. Filtrar solo horarios futuros
+    const horaActual = obtenerHoraActual();
+    const horariosFuturos = horariosCompletos.filter(h => h.hora > horaActual);
+
+    console.log(`Hora actual: ${horaActual}`);
+    console.log(`Horarios totales hoy: ${horariosCompletos.length}`);
+    console.log(`Horaros futuros: ${horariosFuturos.length}`);
+
+    return horariosFuturos;
 }
