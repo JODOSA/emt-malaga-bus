@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { cargarParadas } from './services/dataLoader';
 import { buscarParadasCercanas } from './services/paradaService';
+import { obtenerHorariosParada } from './services/horarioService';
 
 const app = express();
 const PORT = 3000;
@@ -57,12 +58,19 @@ app.get('/api/paradas', async (req:Request, res:Response) => {
     });
 
 // Ruta de preba para horarios
-app.get('/api/horarios/:paradaId', (req:Request, res:Response) => {
-    const { paradaId } = req.params;
-    res.json({
-        message: `Aquí irán los horarios de la parada ${paradaId}`,
-        horarios:[]
-    });
+app.get('/api/horarios/:paradaId',async(req: Request, res: Response) => {
+    try{
+        const { paradaId } = req.params;
+        const horarios = await obtenerHorariosParada(paradaId);
+
+        res.json({
+            paradaId,
+            totalHorarios: horarios.length,
+            horarios: horarios.slice(0, 10) // Primeros 10 para no saturar
+        });
+    }catch (error){
+        res.status(500).json({ error: 'Error al obtener horarios' });
+    }
 });
 
 // Iniciar servidor

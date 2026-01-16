@@ -1,0 +1,43 @@
+{
+	"info": {
+		"_postman_id": "7e23d142-fa7d-491a-a0de-1c43f0e9c9dd",
+		"name": "EMT Malaga API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25052510",
+		"_collection_link": "https://jds222.postman.co/workspace/EMT~12363c8b-782a-4c91-92ac-6e6f51b9b894/collection/25052510-7e23d142-fa7d-491a-a0de-1c43f0e9c9dd?action=share&source=collection_link&creator=25052510"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Listar paradas",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar paradas cercanas",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Horarios de paradas",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
