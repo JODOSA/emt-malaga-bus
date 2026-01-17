@@ -1,10 +1,14 @@
 import express, { Request, Response } from 'express';
+import cors from 'cors';
 import { cargarParadas } from './services/dataLoader';
 import { buscarParadasCercanas } from './services/paradaService';
 import { obtenerHorariosParada } from './services/horarioService';
 
 const app = express();
 const PORT = 3000;
+
+// Permitir peticiones desde el frontend
+app.use(cors());
 
 // Middleware para parsear JSON
 app.use(express.json());

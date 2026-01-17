@@ -12,7 +12,7 @@ export function calcularDistacia(
     lat2: number,
     lon2: number
 ): number {
-    const R = 6371; // Radio de la Tierra en kilometros
+    const R = 6371000; // Radio de la Tierra en metros
 
     // Convertir los grados en radianes
     const dLat = toRadianes(lat2 - lat1);
