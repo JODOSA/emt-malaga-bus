@@ -2,7 +2,7 @@ import { calcularDistacia } from "../utils/distancia";
 import { cargarParadas } from "./dataLoader";
 
 interface ParadaCercana {
-    codParada: string;
+    stop_id: string;
     nombreParada: string;
     direccion: string;
     lat: number;
@@ -19,8 +19,13 @@ export async function buscarParadasCercanas(
     // 1. Cargar todas las paradas
     const todasLasParadas = await cargarParadas();
 
-    // 2. Calcular distancia de cada parada al usuario
-    const paradasConDistancia = todasLasParadas.map(parada => {
+    // 2. Eliminar duplicados por codParada
+    const paradasUnicas = Array.from(
+        new Map(todasLasParadas.map(parada => [parada.codParada, parada])).values()
+    );
+
+    // 3. Calcular distancia de cada parada al usuario
+    const paradasConDistancia = paradasUnicas.map(parada => {
         const distancia = calcularDistacia(
             latUsuario,
             lonUsuario,
@@ -29,7 +34,7 @@ export async function buscarParadasCercanas(
         );
 
         return {
-            codParada: parada.codParada,
+            stop_id: parada.codParada,
             nombreParada: parada.nombreParada,
             direccion: parada.direccion,
             lat: parseFloat(parada.lat),
@@ -39,9 +44,9 @@ export async function buscarParadasCercanas(
         };
     });
 
-    // 3. Ordenar por distancia (menor a mayor)
+    // 4. Ordenar por distancia (menor a mayor)
     paradasConDistancia.sort((a, b) => a.distancia - b.distancia);
 
-    // 4. Devolver solo las cantidad de paradas que indica 'limite'
+    // 5. Devolver solo las cantidad de paradas que indica 'limite'
     return paradasConDistancia.slice(0, limite);
 }
