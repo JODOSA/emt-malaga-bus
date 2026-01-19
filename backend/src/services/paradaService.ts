@@ -3,7 +3,7 @@ import { cargarParadas } from "./dataLoader";
 
 interface ParadaCercana {
     stop_id: string;
-    nombreParada: string;
+    stop_name: string;
     direccion: string;
     lat: number;
     lon: number;
@@ -35,7 +35,7 @@ export async function buscarParadasCercanas(
 
         return {
             stop_id: parada.codParada,
-            nombreParada: parada.nombreParada,
+            stop_name: parada.nombreParada,
             direccion: parada.direccion,
             lat: parseFloat(parada.lat),
             lon: parseFloat(parada.lon),
