@@ -51,7 +51,8 @@ function MapScreen({ onBack }: MapScreenProps) {
                     setStops(data.paradasCercanas)
                     setLoading(false)
                 }catch (err) {
-                    setError('Error al conectar al servidor')
+                    const errorMessage = err instanceof Error ? err.message : 'Error desconocido'
+                    setError(`Error al conectar al servidor: ${errorMessage}`)
                     setLoading(false)
                 }
             },
