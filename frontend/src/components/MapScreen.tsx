@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './MapScreen.css'
+import StopCard from './StopCard'
 
 // Definimos el tipo de las props que recibe
 interface MapScreenProps {
@@ -12,11 +13,67 @@ interface Stop {
     distancia: number
 }
 
+interface Schedule {
+    fechaHoy: string
+    hora: string
+    linea: string
+    destino: string
+    sentido: string
+}
+
+interface SchedulesCache {
+    [stop_id: string]: Schedule[]
+}
+
 function MapScreen({ onBack }: MapScreenProps) {
     const [userLocation, setUserLocation] = useState<{lat: number, lon: number} | null>(null)
     const [stops, setStops] = useState<Stop[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [expandedStopId, setExpandedStopId] = useState<string | null>(null)
+    const [schedulesCache, setSchedulesCache] = useState<SchedulesCache>({})
+    const [loadingSchedules, setLoadingSchedules] = useState<string | null>(null)
+
+    const handleStopClick = async (stop_id: string) => {
+        // Si se hace click en una tarjeta ya expandida, se colapsa
+        if(expandedStopId === stop_id){
+            setExpandedStopId(null)
+            return
+        }
+
+        // Si no, se expande la tarjeta seleccionada y se colapsa cualquier otra
+        setExpandedStopId(stop_id)
+
+        // Verificar si ya tenemos los horarios en caché
+        if(schedulesCache[stop_id]){
+            // Ya los tenemos, no hacer nada más
+            return
+        }
+
+        // No los tenemos, cargarlos del backend
+        setLoadingSchedules(stop_id)
+
+        try{
+            const response = await fetch(`http://localhost:3000/api/horarios/${stop_id}`)
+
+            if(!response.ok){
+                throw new Error('Error al obtener horarios')
+            }
+
+            const data = await response.json()
+
+            // Guardar en caché
+            setSchedulesCache((prev: SchedulesCache) => ({
+                ...prev,
+                [stop_id]: data.horarios
+            }))
+            setLoadingSchedules(null)
+        }catch (err){
+            console.error('Error al cargar horarios: ', err)
+            setLoadingSchedules(null)
+        }
+        
+    }
 
     useEffect(() => {
         // Solo ejecutar si el navegador soporta geolocalización
@@ -95,24 +152,18 @@ function MapScreen({ onBack }: MapScreenProps) {
         ) : (
           <>
             <h3>📍 {stops.length} paradas encontradas</h3>
-            <div style={{ marginTop: '1rem' }}>
-              {stops.map((stop) => (
-                <div key={stop.stop_id} style={{
-                  background: '#f8f9fa',
-                  padding: '1rem',
-                  marginBottom: '0.8rem',
-                  borderRadius: '12px',
-                  borderLeft: '4px solid #667eea'
-                }}>
-                  <div style={{ fontWeight: 600, color: '#333' }}>
-                    {stop.stop_name}
-                  </div>
-                  <div style={{ color: '#666', fontSize: '0.9rem', marginTop: '0.3rem' }}>
-                    📏 {Math.round(stop.distancia)} metros
-                  </div>
-                </div>
-              ))}
-            </div>
+            {stops.map((stop) => (
+                <StopCard
+                    key={stop.stop_id}
+                    stop_id={stop.stop_id}
+                    stop_name={stop.stop_name}
+                    distancia={stop.distancia}
+                    isExpanded={expandedStopId === stop.stop_id}
+                    onClick={() => handleStopClick(stop.stop_id)}
+                    schedules={schedulesCache[stop.stop_id] || []}
+                    isLoadingSchedules={loadingSchedules === stop.stop_id} />
+            ))}
+           
           </>
         )}
       </div>

@@ -1,0 +1,109 @@
+.stop-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 4px solid #667eea;
+}
+
+.stop-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.stop-name {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.3rem;
+  font-size: 1rem;
+}
+
+.stop-distance {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Sección de horarios expandida */
+.schedules-container {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.loading-text {
+  color: #667eea;
+  font-style: italic;
+  margin: 0;
+}
+
+.no-schedules {
+  color: #999;
+  font-style: italic;
+  margin: 0;
+}
+
+.schedules-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.schedules-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.current-date {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem;
+  background: white;
+  border-radius: 8px;
+  border-left: 3px solid #764ba2;
+}
+
+.schedule-line {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #667eea;
+  min-width: 50px;
+}
+
+.schedule-info {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.schedule-time {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+.schedule-destination {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.2rem;
+}
+
+.schedule-direction {
+  font-size: 0.75rem;
+  color: #999;
+}
