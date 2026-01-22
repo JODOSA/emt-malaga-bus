@@ -1,16 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback} from 'react'
 import './MapScreen.css'
 import StopCard from './StopCard'
+import { Map } from './Map'
+import type { ParadaCercana } from '../types'
 
 // Definimos el tipo de las props que recibe
 interface MapScreenProps {
     onBack: () => void
-}
-
-interface Stop {
-    stop_id: string
-    stop_name: string
-    distancia: number
 }
 
 interface Schedule {
@@ -27,14 +23,14 @@ interface SchedulesCache {
 
 function MapScreen({ onBack }: MapScreenProps) {
     const [userLocation, setUserLocation] = useState<{lat: number, lon: number} | null>(null)
-    const [stops, setStops] = useState<Stop[]>([])
+    const [stops, setStops] = useState<ParadaCercana[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const [expandedStopId, setExpandedStopId] = useState<string | null>(null)
     const [schedulesCache, setSchedulesCache] = useState<SchedulesCache>({})
     const [loadingSchedules, setLoadingSchedules] = useState<string | null>(null)
 
-    const handleStopClick = async (stop_id: string) => {
+    const handleStopClick = useCallback(async (stop_id: string) => {
         // Si se hace click en una tarjeta ya expandida, se colapsa
         if(expandedStopId === stop_id){
             setExpandedStopId(null)
@@ -68,12 +64,20 @@ function MapScreen({ onBack }: MapScreenProps) {
                 [stop_id]: data.horarios
             }))
             setLoadingSchedules(null)
+
+            // Forzar actualización para que el useEffect del mapa se ejecute
+            // Esto asegura que el popup se abra DESPUÉS de cargar los horarios
+            setExpandedStopId(null)
+            setTimeout(() => {
+                setExpandedStopId(stop_id)
+            }, 50)
+
         }catch (err){
             console.error('Error al cargar horarios: ', err)
             setLoadingSchedules(null)
         }
         
-    }
+    }, [expandedStopId, schedulesCache])
 
     useEffect(() => {
         // Solo ejecutar si el navegador soporta geolocalización
@@ -128,22 +132,27 @@ function MapScreen({ onBack }: MapScreenProps) {
       </div>
       
       <div className="map-container">
-        <div className="map-placeholder">
             {loading && (
-            <>
-                <div className="spinner"></div>
-                <p>Obteniendo tu ubicación...</p>
-            </>
+                <div className="map-placeholder">
+                    <div className="spinner"></div>
+                    <p>Obteniendo tu ubicación...</p>
+                </div>
             )}
 
-            {error && <p style={{color: 'red'}}>{error}</p>}
+            {error && (
+                <div className='map-placeholder'>
+                    <p style={{color: 'red'}}>{error}</p>
+                </div>
+            )}
 
             {userLocation && !loading && (
-                <div>
-                    <p>✅ {stops.length} paradas encontradas</p>
-                </div>
+                <Map 
+                userLocation={userLocation}
+                busStops={stops}
+                onStopClick={(stop) => handleStopClick(stop.stop_id)}
+                expandedStopId={expandedStopId}
+                />
             )}          
-        </div>
       </div>
       
       <div className="stops-sheet">

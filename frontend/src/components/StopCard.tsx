@@ -1,12 +1,5 @@
 import './StopCard.css'
-
-interface Schedule {
-    fechaHoy: string
-    hora: string
-    linea: string
-    destino: string
-    sentido: string
-}
+import type { Schedule } from '../types'
 
 interface StopCardProps {
     stop_id: string
