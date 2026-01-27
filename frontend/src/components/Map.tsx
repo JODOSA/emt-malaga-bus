@@ -1,6 +1,7 @@
-import { useEffect, useReducer, useRef } from "react"
+import { useEffect, useRef } from "react"
 import L from 'leaflet'
 import type { ParadaCercana } from '../types'
+import { calculateRoute, type RouteResponse } from '../services/routingService'
 
 interface MapProps {
     userLocation: { lat: number, lon: number } | null
@@ -16,6 +17,40 @@ export const Map = ({ userLocation, busStops, onStopClick, expandedStopId }: Map
     const mapRef = useRef<L.Map | null>(null)
     // useRef para los marcadores, así podemos limpiarlos después
     const markersRef = useRef<L.Marker[]>([])
+    // useRef para guardar la línea de ruta
+    const routeLineRef = useRef<L.Polyline | null>(null)
+
+    // Función para dibujar la ruta en el mapa
+    const drawRoute = async (from: {lat: number; lon: number}, to: {lat: number; lon: number}) => {
+        if(!mapRef.current) return null
+
+        // Borrar ruta anterior si existe
+        if(routeLineRef.current){
+            routeLineRef.current.remove()
+            routeLineRef.current = null
+        }
+
+        // Calcular la ruta
+        const routeData = await calculateRoute(from, to)
+
+        if(!routeData){
+            console.error('No se pudo calcular la ruta')
+            return null
+        }
+
+        // Dibujar la línea de ruta en el mapa
+        const routeLine = L.polyline(routeData.geometry, {
+            color: '#2a81cb', // Color azul, como el marcador del usuario
+            weight: 4,  // Grosor de la línea
+            opacity: 0.7,  // Transparencia de la línea
+            lineJoin: 'round'  // Esquinas redondeadas
+        }).addTo(mapRef.current)
+
+        // Guardar referencia para poder borrarla después
+        routeLineRef.current = routeLine
+
+        return routeData
+    }
 
     // Efecto para inicializar el mapa (solo se ejecuta una vez)
     useEffect(() => {
@@ -140,8 +175,36 @@ export const Map = ({ userLocation, busStops, onStopClick, expandedStopId }: Map
                 const marker = markersRef.current[markerIndex]
                 const stop = busStops[markerIndex]
 
+                // Dibujar la ruta si tenemos ubicación del usuario
+                if(userLocation){
+                    drawRoute(
+                        {lat: userLocation.lat, lon: userLocation.lon},
+                        {lat: stop.lat, lon: stop.lon}
+                    ).then(routeData => {
+                        // Si se calculó la ruta correctamente, actualizar el popup
+                        if(routeData) {
+                            // Calcular tiempo estimado en minutos
+                            const minutes = Math.round(routeData.duration / 60)
+                            // Convertir distancia a metros o kilómetros
+                            const distance = routeData.distance < 1000
+                            ? `${Math.round(routeData.distance)}m`
+                            : `${(routeData.distance / 1000).toFixed(1)}km`
+
+                            // Actualizar el contenido del popup con la info de la ruta
+                            marker.setPopupContent(`
+                                <strong>${stop.stop_name}</strong><br>
+                                ${stop.direccion}<br>
+                                📏 Distancia: ${distance}<br>
+                                🚶 Tiempo: ~${minutes} min
+                            `)
+                        }
+                    })
+                }
+
                 // Abrir popup
-                marker.openPopup()
+                setTimeout(() => {
+                    marker.openPopup()
+                }, 100)
 
                 // Centrar mapa en ese marcador con zoom 16
                 mapRef.current.setView([stop.lat, stop.lon], 16, {
@@ -155,8 +218,14 @@ export const Map = ({ userLocation, busStops, onStopClick, expandedStopId }: Map
             markersRef.current.forEach(marker => {
                 marker.closePopup()
             })
+
+            // Borrar la ruta del mapa
+            if(routeLineRef.current) {
+                routeLineRef.current.remove()
+                routeLineRef.current = null
+            }
         }
-    }, [expandedStopId])
+    }, [expandedStopId, userLocation])
 
     return (
         <div 

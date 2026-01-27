@@ -72,3 +72,106 @@
   font-size: 1.2rem;
   margin: 0;
 }
+
+/* Botón flotante para ubicación manual */
+.manual-location-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: white;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.manual-location-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Modal de ubicación manual */
+.location-input-modal {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+  min-width: 300px;
+}
+
+.location-input-modal h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-primary {
+  flex: 1;
+  padding: 0.7rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover {
+  background: #5568d3;
+}
+
+.btn-secondary {
+  flex: 1;
+  padding: 0.7rem;
+  background: #f0f0f0;
+  color: #666;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+}

@@ -29,6 +29,9 @@ function MapScreen({ onBack }: MapScreenProps) {
     const [expandedStopId, setExpandedStopId] = useState<string | null>(null)
     const [schedulesCache, setSchedulesCache] = useState<SchedulesCache>({})
     const [loadingSchedules, setLoadingSchedules] = useState<string | null>(null)
+    const [showLocationInput, setShowLocationInput] = useState(false)
+    const [manualLat, setManualLat] = useState('')
+    const [manualLon, setManualLon] = useState('')
 
     const handleStopClick = useCallback(async (stop_id: string) => {
         // Si se hace click en una tarjeta ya expandida, se colapsa
@@ -52,11 +55,16 @@ function MapScreen({ onBack }: MapScreenProps) {
         try{
             const response = await fetch(`http://localhost:3000/api/horarios/${stop_id}`)
 
+            console.log('📡 Respuesta del backend para parada:', stop_id, 'Status:', response.status);
+
             if(!response.ok){
                 throw new Error('Error al obtener horarios')
             }
 
             const data = await response.json()
+
+            console.log('📊 Datos recibidos para parada', stop_id, ':', data);
+            console.log('📋 Número de horarios:', data.horarios?.length || 0);
 
             // Guardar en caché
             setSchedulesCache((prev: SchedulesCache) => ({
@@ -78,6 +86,46 @@ function MapScreen({ onBack }: MapScreenProps) {
         }
         
     }, [expandedStopId, schedulesCache])
+
+    const handleManualLocation = async () => {
+        const lat = parseFloat(manualLat)
+        const lon = parseFloat(manualLon)
+
+        // Validar que sean números válidos
+        if(isNaN(lat) || isNaN(lon)) {
+            alert('Por favor, introduce coordenadas válidas')
+            return
+        }
+
+        // Validar rangos aproximados de España
+        if(lat < 35 || lat > 44 || lon < -10 || lon > 5) {
+            alert('Las coordenadas parecen estar fuera del rango de España. Verifica que son correctas')
+            return
+        }
+
+        setUserLocation({lat, lon})
+        setLoading(true)
+
+        // Hacer petición al backend con las coordenadas manuales
+        try {
+            const response = await fetch(
+            `http://localhost:3000/api/paradas/cercanas?lat=${lat}&lon=${lon}`
+            );
+
+            if (!response.ok) {
+            throw new Error('Error al obtener paradas');
+            }
+
+            const data = await response.json();
+            setStops(data.paradasCercanas);
+            setLoading(false);
+            setShowLocationInput(false); // Cerrar el formulario
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+            setError(`Error al conectar al servidor: ${errorMessage}`);
+            setLoading(false);
+        }
+}
 
     useEffect(() => {
         // Solo ejecutar si el navegador soporta geolocalización
@@ -176,6 +224,67 @@ function MapScreen({ onBack }: MapScreenProps) {
           </>
         )}
       </div>
+
+        {/* Botón flotante para ubicación manual */}
+{!loading && (
+  <button 
+    className="manual-location-button"
+    onClick={() => setShowLocationInput(!showLocationInput)}
+    title="Introducir ubicación manual"
+  >
+    📍
+  </button>
+)}
+
+{/* Formulario de ubicación manual */}
+{showLocationInput && (
+  <div className="location-input-modal">
+    <h3>Ubicación Manual</h3>
+    <p style={{fontSize: '0.9em', color: '#666', marginBottom: '1rem'}}>
+      Introduce coordenadas de Málaga para testing
+    </p>
+    
+    <div className="input-group">
+      <label>Latitud:</label>
+      <input
+        type="text"
+        placeholder="Ej: 36.7213"
+        value={manualLat}
+        onChange={(e) => setManualLat(e.target.value)}
+      />
+    </div>
+    
+    <div className="input-group">
+      <label>Longitud:</label>
+      <input
+        type="text"
+        placeholder="Ej: -4.4214"
+        value={manualLon}
+        onChange={(e) => setManualLon(e.target.value)}
+      />
+    </div>
+
+    <p style={{fontSize: '0.85em', color: '#888', marginTop: '0.5rem'}}>
+      💡 Tip: Centro de Málaga: 36.7213, -4.4214
+    </p>
+    
+    <div className="button-group">
+      <button 
+        className="btn-primary"
+        onClick={handleManualLocation}
+      >
+        Buscar paradas
+      </button>
+      <button 
+        className="btn-secondary"
+        onClick={() => setShowLocationInput(false)}
+      >
+        Cancelar
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   )
 }
