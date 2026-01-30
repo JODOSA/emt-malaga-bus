@@ -1,6 +1,7 @@
 import { rejects } from 'assert';
 import fs from 'fs';
 import Papa from 'papaparse';
+import path from 'path';
 
 interface StopTime {
     trip_id: string;
@@ -32,7 +33,9 @@ interface CalendarDate {
 
 export function cargarCalendarDates(): Promise<CalendarDate[]> {
     return new Promise((resolve, reject) => {
-        const archivo = fs.readFileSync('./data/gtfs/calendar_dates.csv', 'utf-8');
+        //const archivo = fs.readFileSync('./data/gtfs/calendar_dates.csv', 'utf-8');
+        const archivo = fs.readFileSync(path.join(process.cwd(), 'data/gtfs/calendar_dates.csv'), 'utf-8');
+
         Papa.parse(archivo, {
             header:true,
             complete: (results) => resolve(results.data as CalendarDate[]),
@@ -43,7 +46,9 @@ export function cargarCalendarDates(): Promise<CalendarDate[]> {
 
 export function cargarStopTimes(): Promise<StopTime[]> {
     return new Promise((resolve, reject) => {
-        const archivo = fs.readFileSync('./data/gtfs/stop_times.csv', 'utf-8');
+        //const archivo = fs.readFileSync('./data/gtfs/stop_times.csv', 'utf-8');
+        const archivo = fs.readFileSync(path.join(process.cwd(), 'data/gtfs/stop_times.csv'), 'utf-8');
+
         Papa.parse(archivo, {
             header: true,
             complete: (results) => resolve(results.data as StopTime[]),
@@ -53,7 +58,9 @@ export function cargarStopTimes(): Promise<StopTime[]> {
 }
 export function cargarTrips(): Promise<Trip[]> {
     return new Promise((resolve, reject) => {
-        const archivo = fs.readFileSync('./data/gtfs/trips.csv', 'utf-8');
+        //const archivo = fs.readFileSync('./data/gtfs/trips.csv', 'utf-8');
+        const archivo = fs.readFileSync(path.join(process.cwd(), 'data/gtfs/trips.csv'), 'utf-8');
+
         Papa.parse(archivo, {
             header:true,
             complete: (results) => resolve(results.data as Trip[]),
@@ -64,7 +71,9 @@ export function cargarTrips(): Promise<Trip[]> {
 
 export function cargarRoutes(): Promise<Route[]> {
     return new Promise((resolve, reject) => {
-        const archivo = fs.readFileSync('./data/gtfs/routes.csv', 'utf-8');
+        //const archivo = fs.readFileSync('./data/gtfs/routes.csv', 'utf-8');
+        const archivo = fs.readFileSync(path.join(process.cwd(), 'data/gtfs/routes.csv'), 'utf-8');
+
         Papa.parse(archivo, {
             header: true,
             complete: (results) => resolve(results.data as Route[]),

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import Papa from 'papaparse';
+import path from 'path';
 
 interface Parada{
     codParada: string;
@@ -12,7 +13,10 @@ interface Parada{
 
 export function cargarParadas(): Promise<Parada[]>{
     return new Promise((resolve, reject) => {
-        const archivo = fs.readFileSync('./data/paradas/lineasyparadas.csv', 'utf-8');
+        //const archivo = fs.readFileSync('./data/paradas/lineasyparadas.csv', 'utf-8');
+        const archivo = fs.readFileSync(
+            path.join(process.cwd(), 'data/paradas/lineasyparadas.csv'), 'utf-8'
+        );
 
         Papa.parse(archivo, {
             header: true,

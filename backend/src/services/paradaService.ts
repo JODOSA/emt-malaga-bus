@@ -1,4 +1,4 @@
-import { calcularDistacia } from "../utils/distancia";
+import { calcularDistancia } from "../utils/distancia";
 import { cargarParadas } from "./dataLoader";
 
 interface ParadaCercana {
@@ -26,7 +26,7 @@ export async function buscarParadasCercanas(
 
     // 3. Calcular distancia de cada parada al usuario
     const paradasConDistancia = paradasUnicas.map(parada => {
-        const distancia = calcularDistacia(
+        const distancia = calcularDistancia(
             latUsuario,
             lonUsuario,
             parseFloat(parada.lat),

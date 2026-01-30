@@ -6,7 +6,7 @@
  * @returns Distancia en kilometros
  */
 
-export function calcularDistacia(
+export function calcularDistancia(
     lat1: number,
     lon1: number,
     lat2: number,

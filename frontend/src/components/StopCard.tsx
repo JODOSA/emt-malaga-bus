@@ -11,7 +11,7 @@ interface StopCardProps {
     isLoadingSchedules: boolean
 }
 
-function StopCard({ stop_id, stop_name, distancia, isExpanded, onClick, schedules, isLoadingSchedules }: StopCardProps) {
+function StopCard({ stop_name, distancia, isExpanded, onClick, schedules, isLoadingSchedules }: StopCardProps) {
     return (
         <div className='stop-card' onClick={onClick}>
             <div className='stop-name'>{stop_name}</div>

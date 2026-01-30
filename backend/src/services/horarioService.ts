@@ -57,7 +57,7 @@ export async function obtenerHorariosParada(
         const route = routes.find(r => r.route_id === trip?.route_id);
 
         return {
-            fechaHoy: fechaHoy,
+            //fechaHoy: fechaHoy,
             hora: st.arrival_time,
             linea: route?.route_short_name || 'Desconocida',
             destino: trip?.trip_headsign || 'Desconocido',

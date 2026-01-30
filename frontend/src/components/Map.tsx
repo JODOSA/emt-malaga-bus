@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import L from 'leaflet'
 import type { ParadaCercana } from '../types'
-import { calculateRoute, type RouteResponse } from '../services/routingService'
+import { calculateRoute } from '../services/routingService'
 
 interface MapProps {
     userLocation: { lat: number, lon: number } | null
@@ -138,8 +138,8 @@ export const Map = ({ userLocation, busStops, onStopClick, expandedStopId }: Map
                     Distancia: ${Math.round(stop.distancia)}m`)
 
             // Abrir popup al pasar el ratón (hover)
-            marker.on('mouseover', function() {
-                this.openPopup()
+            marker.on('mouseover', () => {
+                marker.openPopup()
             })
 
             // Los popups se cierran solos al interactuar con el mapa
