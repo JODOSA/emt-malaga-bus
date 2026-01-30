@@ -3,6 +3,7 @@ import './MapScreen.css'
 import StopCard from './StopCard'
 import { Map } from './Map'
 import type { ParadaCercana } from '../types'
+import { API_URL } from '../config'
 
 // Definimos el tipo de las props que recibe
 interface MapScreenProps {
@@ -53,7 +54,7 @@ function MapScreen({ onBack }: MapScreenProps) {
         setLoadingSchedules(stop_id)
 
         try{
-            const response = await fetch(`http://localhost:3000/api/horarios/${stop_id}`)
+            const response = await fetch(`${API_URL}/api/horarios/${stop_id}`)
 
             console.log('📡 Respuesta del backend para parada:', stop_id, 'Status:', response.status);
 
@@ -109,8 +110,8 @@ function MapScreen({ onBack }: MapScreenProps) {
         // Hacer petición al backend con las coordenadas manuales
         try {
             const response = await fetch(
-            `http://localhost:3000/api/paradas/cercanas?lat=${lat}&lon=${lon}`
-            );
+            `${API_URL}/api/paradas/cercanas?lat=${lat}&lon=${lon}`
+            )
 
             if (!response.ok) {
             throw new Error('Error al obtener paradas');
