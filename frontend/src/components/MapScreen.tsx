@@ -150,7 +150,8 @@ function MapScreen({ onBack }: MapScreenProps) {
                 // Hacer petición al backend
                 try{
                     const response = await fetch(
-                        `http://localhost:3000/api/paradas/cercanas?lat=${lat}&lon=${lon}`
+                        //`http://localhost:3000/api/paradas/cercanas?lat=${lat}&lon=${lon}`
+                        `${API_URL}/api/paradas/cercanas?lat=${lat}&lon=${lon}`
                     )
 
                     if(!response.ok){
