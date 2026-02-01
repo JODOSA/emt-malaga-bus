@@ -52,10 +52,7 @@ app.get('/api/paradas/cercanas', async(req: Request, res: Response) => {
 app.get('/api/paradas', async (req:Request, res:Response) => {
     try{
         const paradas = await cargarParadas();
-
-        console.log('Total de paradas: ', paradas.length);
-        console.log('Primera parada: ', paradas[0]);
-
+        
         res.json({
         message: 'Paradas cargadas exitosamente',
         total: paradas.length,

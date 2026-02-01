@@ -56,16 +56,11 @@ function MapScreen({ onBack }: MapScreenProps) {
         try{
             const response = await fetch(`${API_URL}/api/horarios/${stop_id}`)
 
-            console.log('📡 Respuesta del backend para parada:', stop_id, 'Status:', response.status);
-
             if(!response.ok){
                 throw new Error('Error al obtener horarios')
             }
 
             const data = await response.json()
-
-            console.log('📊 Datos recibidos para parada', stop_id, ':', data);
-            console.log('📋 Número de horarios:', data.horarios?.length || 0);
 
             // Guardar en caché
             setSchedulesCache((prev: SchedulesCache) => ({
@@ -150,7 +145,6 @@ function MapScreen({ onBack }: MapScreenProps) {
                 // Hacer petición al backend
                 try{
                     const response = await fetch(
-                        //`http://localhost:3000/api/paradas/cercanas?lat=${lat}&lon=${lon}`
                         `${API_URL}/api/paradas/cercanas?lat=${lat}&lon=${lon}`
                     )
 
