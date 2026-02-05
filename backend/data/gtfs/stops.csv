@@ -552,12 +552,12 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 674,1914,P.I. La Huertecilla,Parada,36.7064416847763,-4.50900948641719,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1914,,,Europe/Madrid
 675,1915,Mercamalaga,Parada,36.7062882114403,-4.51431564021691,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1915,,,Europe/Madrid
 676,1916,P.I. Trévenez,Parada,36.7066343856627,-4.51974904711279,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1916,,,Europe/Madrid
-677,1917,Cortijo Jurado,Parada,36.7143153885294,-4.52946542665658,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1917,,,Europe/Madrid
+677,1917,Cortijo Jurado,Parada,36.71541085846,-4.52979102734113,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1917,,,Europe/Madrid
 678,1918,Azucarera - Intelhorce,Parada,36.7043290774601,-4.49298688024786,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1918,,,Europe/Madrid
 679,1953,Avda. Comandante García Morato - Aeroclub,Parada,36.6716729570314,-4.48468820554647,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1953,,,Europe/Madrid
 682,1957,Aeropuerto - Servicios Administrativos,Parada,36.6730015743857,-4.48735975250546,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1957,,,Europe/Madrid
 683,1959,Estación Autobuses,Parada,36.7124605560287,-4.43380869074259,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1959,,,Europe/Madrid
-684,1960,Cortijo Jurado,Parada,36.7113699176016,-4.52658289460569,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1960,,,Europe/Madrid
+684,1960,Cortijo Jurado,Parada,36.7149808375279,-4.52981248501326,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1960,,,Europe/Madrid
 685,1961,P.I. Trévenez,Parada,36.7065735112209,-4.51981988780923,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1961,,,Europe/Madrid
 686,1962,Mercamalaga,Parada,36.7061391149661,-4.51430756465481,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1962,,,Europe/Madrid
 687,1963,P.I. La Huertecilla,Parada,36.7063551817131,-4.51009674402161,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=1963,,,Europe/Madrid
@@ -942,6 +942,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 1097,3262,Paseo del Limonar,Parada,36.7229969499121,-4.39876243707404,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=3262,,,Europe/Madrid
 1099,3264,Alameda Principal - Norte,Parada,36.717071806337,-4.42495055164348,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=3264,,,Europe/Madrid
 5856,3265,Av. Camarón - Arboladura,Parada,36.7365818086526,-4.39809510693266,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=3265,,,Europe/Madrid
+6119,3266,Las Espuelas - Instituto,Parada,36.7307524301716,-4.40081164242662,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=3266,,,Europe/Madrid
 1101,3302,Paseo Cerrado Calderón - C. Comercial,Parada,36.7260119291574,-4.38146161581963,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=3302,,,Europe/Madrid
 1102,3303,Flamencos,Parada,36.7265460442555,-4.38345267535087,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=3303,,,Europe/Madrid
 1103,3304,Flamencos - Colegio,Parada,36.727028665478,-4.38417532706313,,http://www.emtmalaga.es/emt-mobile/informacionParada.html?codParada=3304,,,Europe/Madrid
