@@ -17,10 +17,22 @@ function obtenerFechaHoy(): string {
 
 function obtenerHoraActual(): string {
     const ahora = new Date();
-    const horas = String(ahora.getHours()).padStart(2, '0');
-    const minutos = String(ahora.getMinutes()).padStart(2, '0');
-    const segundos = String(ahora.getSeconds()).padStart(2, '0');
-    return `${horas}:${minutos}:${segundos}`; // Formato: HH:MM:SS
+    // Convertir a zona horaria de Madrid
+    const horasMadrid = ahora.toLocaleString('es-ES', {
+        timeZone: 'Europe/Madrid',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    });
+
+    return horasMadrid
+
+
+    //const horas = String(ahora.getHours()).padStart(2, '0');
+    //const minutos = String(ahora.getMinutes()).padStart(2, '0');
+    //const segundos = String(ahora.getSeconds()).padStart(2, '0');
+    //return `${horas}:${minutos}:${segundos}`; // Formato: HH:MM:SS
 }
 
 export async function obtenerHorariosParada(
